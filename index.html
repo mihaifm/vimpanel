@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Vimpanel by mihaifm</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/mihaifm/vimpanel">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/mihaifm/vimpanel/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/mihaifm/vimpanel/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Vimpanel</h1>
+          <p>A modern side panel for Vim</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/mihaifm">mihaifm</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h2>Vimpanel</h2>
+
+<ul>
+<li>Add any folder to the panel</li>
+<li>Each folder can be expanded independently</li>
+<li>You can stick files in there as well</li>
+<li>Drag and drop works too</li>
+<li>Create and display any number of panels</li>
+<li>Session support: find your panels and all other windows the way you left them when you exited Vim</li>
+<li>Filesystem operations, including file copying using visual selection</li>
+<li>Propper handling of Windows paths</li>
+<li>Explore the filesystem without constrains, in explorer mode</li>
+<li>Use it for project management, keeping bookmarks, notes or anything you like</li>
+</ul><h3>Getting started</h3>
+
+<p>Begin by creating a new panel with the <code>:VimpanelCreate</code> command.</p>
+
+<pre><code>:VimpanelCreate myprojects
+</code></pre>
+
+<p>Load this panel in the current window with <code>:VimpanelLoad</code></p>
+
+<pre><code>:VimpanelLoad myprojects
+</code></pre>
+
+<p>Add entries to the panel with the <code>:Vimpanel</code> command.</p>
+
+<pre><code>:Vimpanel D:\Projects
+</code></pre>
+
+<p>The path you just added will act as a root and you can now expand and browse it. At any time you can add 
+other roots to the panel.</p>
+
+<p>To get rid of a root, select it and use the <code>:VimpanelRemove</code> command. This does not delete anything from
+the filesystem, it just takes it off the panel.</p>
+
+<p>Sort your panel entries by editing the Vimpanel storage file. The format of this file is painfully simple:
+each line is an entry to the panel. There is a <code>:VimpanelEdit</code> command that makes this easier, by opening up 
+that file:</p>
+
+<pre><code>:VimpanelEdit mypanel
+</code></pre>
+
+<p>You will need to refresh the panel after this, with the <code>:VimpanelRefresh</code> command or the <code>&lt;F5&gt;</code> key. </p>
+
+<p>Inside the panel, focus on a single directory by entering explorer mode:</p>
+
+<pre><code>x
+</code></pre>
+
+<p>In this mode, you can also move up a dir by using the <code>u</code> key, or change the root by using the <code>c</code> key.
+Exit explorer mode at any time by pressing <code>x</code> again.</p>
+
+<p>Inside the panel, several actions and filesystem operations are available.
+Check the <a href="https://github.com/mihaifm/vimpanel/edit/master/readme.md#mappings-inside-the-panel">full list</a> below.</p>
+
+<p>When you're done working, save the state of you panel and everything else you have on the screen:</p>
+
+<pre><code>:VimpanelSessionMake
+</code></pre>
+
+<p>This uses Vim's <code>mksession</code> command and some extra magic to save the state of your panels (the state 
+is defined by which dirs are expanded and which are closed).</p>
+
+<p>When you're ready to work again, load up that session using:</p>
+
+<pre><code>:VimpanelSessionLoad
+</code></pre>
+
+<p>And that's about it. To make your life easier, you can use abbreviations or mappings for all these commands.
+Here are some recommendations to put in your <code>vimrc</code>:</p>
+
+<pre><code>map &lt;leader&gt;ss :VimpanelSessionMake&lt;CR&gt;
+map &lt;leader&gt;sl :VimpanelSessionLoad&lt;CR&gt;
+cabbrev vp Vimpanel
+cabbrev vl VimpanelLoad
+cabbrev vc VimpanelCreate
+cabbrev ve VimpanelEdit
+cabbrev vr VimpanelRemove
+</code></pre>
+
+<p>Tip: autocomplete works for panel names, so you can press <code>vl&lt;space&gt;&lt;tab&gt;</code> and get a full list of panel names.</p>
+
+<h3>Mappings inside the panel</h3>
+
+<pre><code>&lt;CR&gt; or double-click            expand directory or open file
+&lt;F5&gt;                            refresh panel
+&lt;C-c&gt; or yy                     copy selected node (file or dir)
+&lt;C-v&gt; or p                      paste nodes
+dd                              delete node
+r                               rename node
+a                               add new node
+ff                              copy node path to clipboard
+</code></pre>
+
+<p>You can use visual selection (<code>v</code> or <code>V</code>) to grab some files and then press <code>&lt;C-c&gt;</code> or <code>y</code> to copy them. 
+Paste them anywhere else with the <code>p</code> key.</p>
+
+<h3>Explorer mode</h3>
+
+<p>Toggle explorer mode by selecting a folder and pressing the <code>x</code> key. In this mode you can freely explore the filesystem. 
+The selected folder will become the root of the tree, but you can change to another root using the <code>c</code> key or explore the
+parent directory using the <code>u</code> key (move up).</p>
+
+<p>Why is this mode needed? For 2 main reasons:</p>
+
+<ul>
+<li>to keep focus on a single tree</li>
+<li>for the ability to navigate up in the folder hierarchy</li>
+</ul><h4>How does it work</h4>
+
+<p>Vimpanel is built on a heavily modified NERDTree API.<br>
+You will find many similarities with NERDTree but many key differences as well.</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
