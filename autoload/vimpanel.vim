@@ -511,7 +511,7 @@ function! vimpanel#readPanelData(panel_name)
   let g:vimpanel#session_file = g:vimpanel#storage_file . "_session"
 
   if !filereadable(g:vimpanel#session_file)
-    writefile([], g:vimpanel#session_file)
+    call writefile([], g:vimpanel#session_file)
   else
     let g:vimpanel#state_input_list = readfile(g:vimpanel#session_file)
     let g:vimpanel#state_input_list = map(g:vimpanel#state_input_list, "tolower(v:val)")
