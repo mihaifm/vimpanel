@@ -11,8 +11,6 @@
 * Explore the filesystem without constrains, in explorer mode
 * Use it for project management, keeping bookmarks, notes or anything you like
 
-**[Demo](http://www.youtube.com/watch?v=z4tGbp2QJ6g&feature=youtu.be)**
-
 ### Getting started
 
 Begin by creating a new panel with the `:VimpanelCreate` command.
