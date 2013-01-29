@@ -47,14 +47,15 @@ In this mode, you can also move up a dir by using the `u` key, or change the roo
 Exit explorer mode at any time by pressing `x` again.
 
 Inside the panel, several actions and filesystem operations are available.
-Check the [full list](https://github.com/mihaifm/vimpanel/edit/master/readme.md#mappings-inside-the-panel) below.
+Check the [full list](https://github.com/mihaifm/vimpanel#mappings-inside-the-panel) below.
 
 When you're done working, save the state of you panel and everything else you have on the screen:
 
     :VimpanelSessionMake
     
 This uses Vim's `mksession` command and some extra magic to save the state of your panels (the state 
-is defined by which dirs are expanded and which are closed).
+is defined by which dirs are expanded and which are closed). You can optionally pass in a session name
+to the command, if you want to keep multiple sessions with different names.
 
 When you're ready to work again, load up that session using:
 
@@ -63,8 +64,8 @@ When you're ready to work again, load up that session using:
 And that's about it. To make your life easier, you can use abbreviations or mappings for all these commands.
 Here are some recommendations to put in your `vimrc`:
 
-    map <leader>ss :VimpanelSessionMake<CR>
-    map <leader>sl :VimpanelSessionLoad<CR>
+    cabbrev ss VimpanelSessionMake
+    cabbrev sl VimpanelSessionLoad
     cabbrev vp Vimpanel
     cabbrev vl VimpanelLoad
     cabbrev vc VimpanelCreate
@@ -121,15 +122,16 @@ nodes accordingly.
 Rebuilds the panel and also refreshes all the open directories in the panel by reading data from the filesystem. 
 Note that this command encorporates the functionality of the `:VimpanelRebuild` command.
 
-    VimpanelSessionMake
+    VimpanelSessionMake [{name}]
     
-Saves the current state of all the panels and all Vim windows and buffers.This is similar to `mksession` but it 
-saves your panels as well.
-The session is stored in a script called `global_sess.vim` located in the storage directory.
+Saves the current state of all the panels and all Vim windows and buffers. This is similar to `mksession` but it 
+saves your panels as well. The session is stored in a script called `{name}.vim` located in the storage 
+directory. If no name is provided, `default.vim` is used.
 
-    VimpanelSessionLoad
+    VimpanelSessionLoad [{name}]
     
-Restores Vim (panels, windows, buffers) to the state saved by the `:VimpanelSessionMake` command. 
+Restores Vim (panels, windows, buffers) to the state saved by the `:VimpanelSessionMake` command. If no name
+is provided, it attempts to load the session called `default`.
 
 ### Mappings inside the panel
 
@@ -172,4 +174,5 @@ Default: 0
 
 Vimpanel is built on a heavily modified NERDTree API.    
 You will find many similarities with NERDTree but many key differences as well.
+
 

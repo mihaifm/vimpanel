@@ -1,4 +1,4 @@
-let vimpanel#version = '1.0.1'
+let vimpanel#version = '1.0.2'
 
 if exists("g:loaded_vimpanel_autoload")
   finish
@@ -649,7 +649,7 @@ function! vimpanel#initStorageDir()
     call mkdir(g:VimpanelStorage)
     if !isdirectory(g:VimpanelStorage)
       call vimpanel#echo("cannot create vimpanel storage")
-    return 0
+      return 0
     endif
   endif
   return 1

@@ -60,9 +60,27 @@ function! s:CompletePanelNames(A, L, P)
   for filename in files
     let pathbits = split(filename, '\v\\|/', 1)
     let shortname = pathbits[len(pathbits)-1]
-    if shortname =~? '_session$' || shortname =~? '^global_sess'
+    if shortname =~? '_session$' || shortname =~? '\.vim$'
       continue
     endif
+    call add(retlist, shortname)
+  endfor
+
+  return filter(retlist, 'v:val =~# "^' . a:A . '"')
+endfunction
+
+function! s:CompleteSessionNames(A, L, P)
+  if !isdirectory(g:VimpanelStorage)
+    return
+  endif
+
+  let retlist = []
+  let files = split(globpath(g:VimpanelStorage, '*.vim', 1), '\n')
+
+  for filename in files
+    let pathbits = split(filename, '\v\\|/', 1)
+    let shortname = pathbits[len(pathbits)-1]
+    let shortname = substitute(shortname, '\.vim', '', '')
     call add(retlist, shortname)
   endfor
 
@@ -526,7 +544,7 @@ endfunction
 " VimpanelSessionMake - save a global session with all 
 " panels and open windows
 
-function! VimpanelSessionMake()
+function! VimpanelSessionMake(name)
   if !vimpanel#initStorageDir()
     return
   endif
@@ -541,8 +559,14 @@ function! VimpanelSessionMake()
       call VimpanelSave()
     endif
   endfor
-  
-  let sess_file = g:VimpanelStorage . "/" . "global_sess.vim"
+
+  let sess_file = ''
+  if empty(a:name)
+    let sess_file = g:VimpanelStorage ."/" . "default.vim"
+  else
+    let sess_file = g:VimpanelStorage ."/" . a:name . ".vim"
+  endif
+
   set sessionoptions=buffers,curdir,resize,winsize,blank,help,winpos
   exec "mksession! " . sess_file
 endfunction
@@ -551,11 +575,20 @@ endfunction
 " VimpanelSessionLoad - load the global vimpanel session
 " which includes the panel and all open windows
 
-function! VimpanelSessionLoad()
+function! VimpanelSessionLoad(name)
   set sessionoptions=buffers,curdir,resize,winsize,blank,help,winpos
-  let sess_file = g:VimpanelStorage . "/" . "global_sess.vim"
+
+  if empty(a:name)
+    let sess_file = g:VimpanelStorage . "/" . "default.vim"
+  else
+    let sess_file = g:VimpanelStorage . "/" . a:name . ".vim"
+  endif
+
   if filereadable(sess_file)
     exec "silent source " . sess_file
+  else
+    call vimpanel#echoWarning("invalid session name")
+    return
   endif
 
   let panels = vimpanel#listAllPanels()
@@ -651,8 +684,8 @@ command! VimpanelRebuild call VimpanelRebuild()
 command! VimpanelRefresh call VimpanelRefresh()
 command! VimpanelSave call VimpanelSave()
 
-command! VimpanelSessionMake call VimpanelSessionMake()
-command! VimpanelSessionLoad call VimpanelSessionLoad()
+command! -nargs=? -complete=customlist,s:CompleteSessionNames VimpanelSessionMake call VimpanelSessionMake('<args>')
+command! -nargs=? -complete=customlist,s:CompleteSessionNames VimpanelSessionLoad call VimpanelSessionLoad('<args>')
 
 augroup Vimpanel
   autocmd VimEnter * silent! autocmd! FileExplorer
@@ -672,3 +705,4 @@ augroup END
 " todo - bug
 " refreshin a tree does not preserve the same order of files
 " globpath puts files starting with a capital letter at the beginning
+

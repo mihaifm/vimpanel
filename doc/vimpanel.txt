@@ -1,4 +1,4 @@
-*vimpanel.txt*            version 1.0.0
+*vimpanel.txt*            version 1.0.2
 
 *Vimpanel* 
 
@@ -65,7 +65,8 @@ have on the screen:
     
 This uses Vim's |mksession| command and some extra magic to save the state
 your panels (the state is defined by which dirs are expanded and which are 
-closed).
+closed). You can optionally pass in a session name to the command, if you 
+want to keep multiple sessions with different names.
 
 When you're ready to work again, load up that session using:
 >
@@ -75,8 +76,8 @@ And that's about it. To make your life easier, you can use abbreviations or
 mappings for all these commands. Here are some recommendations to put in your
 |vimrc|:
 >
-    map <leader>ss :VimpanelSessionMake<CR>
-    map <leader>sl :VimpanelSessionLoad<CR>
+    cabbrev ss VimpanelSessionMake
+    cabbrev sl VimpanelSessionLoad
     cabbrev vp Vimpanel
     cabbrev vl VimpanelLoad
     cabbrev vc VimpanelCreate
@@ -151,18 +152,19 @@ reading data from the filesystem. Note that this command encorporates the
 functionality of the |:VimpanelRebuild| command.
 
                                                          *VimpanelSessionMake*
-:VimpanelSessionMake
+:VimpanelSessionMake [{name}]
     
 Saves the current state of all the panels and all Vim windows and buffers. 
 This is similar to |mksession| but it saves your panels as well.
-The session is stored in a script called global_sess.vim located in the 
-storage directory.
+The session is stored in a script called {name}.vim located in the 
+storage directory. If no name is provided, default.vim is used.
 
                                                          *VimpanelSessionLoad*
-:VimpanelSessionLoad
+:VimpanelSessionLoad [{name}]
     
 Restores Vim (panels, windows, buffers) to the state saved by the 
-|:VimpanelSessionMake| command. 
+|:VimpanelSessionMake| command. If no name is provided, it attempts to load
+the session called 'default'
 
 ==============================================================================
 3. Mappings inside the panel                               *Vimpanel-mappings*
