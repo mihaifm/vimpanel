@@ -168,20 +168,7 @@ Default: `~/vimpanel`
 Set this to 1 to remove the extra blank line that separates trees.   
 Default: 0
 
-    g:VimpanelRemoveDirCmd
-
-A string representing the system command to be executed when deleting a directory.   
-Default:    
-    `rmdir /s /q` on Windows     
-    `rm -rf` elsewhere
-
-    g:VimpanelCopyCmd
-
-A string representing the system command to be executed when copying a file.     
-Default: `cp -r`    
-On Windows you can install `git` to make the `cp` command available.
-
-#### How does it work
+### How does it work
 
 Vimpanel is built on a heavily modified NERDTree API.    
 You will find many similarities with NERDTree but many key differences as well.

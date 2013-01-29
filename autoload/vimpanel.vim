@@ -1,4 +1,4 @@
-let vimpanel#version = '1.0.0'
+let vimpanel#version = '1.0.1'
 
 if exists("g:loaded_vimpanel_autoload")
   finish

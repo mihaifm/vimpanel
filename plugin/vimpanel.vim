@@ -12,11 +12,13 @@ function! s:initVariable(var, value)
 endfunction
 
 if vimpanel#OS_Windows()
-    call s:initVariable("g:VimpanelRemoveDirCmd", 'rmdir /s /q')
-    call s:initVariable("g:VimpanelCopyCmd", 'cp -r')
+  call s:initVariable("g:VimpanelRemoveDirCmd", 'rmdir /s /q')
+  call s:initVariable("g:VimpanelCopyDirCmd", 'xcopy /s /e /i /y /q ')
+  call s:initVariable("g:VimpanelCopyFileCmd", 'copy /y ')
 else
-    call s:initVariable("g:VimpanelRemoveDirCmd", 'rm -rf')
-    call s:initVariable("g:VimpanelCopyCmd", 'cp -r')
+  call s:initVariable("g:VimpanelRemoveDirCmd", 'rm -rf')
+  call s:initVariable("g:VimpanelCopyDirCmd", 'cp -r')
+  call s:initVariable("g:VimpanelCopyFileCmd", 'cp -r')
 endif
 
 call s:initVariable("g:VimpanelStorage", expand('$HOME') . '/' . 'vimpanel')
@@ -478,7 +480,8 @@ function! VimpanelPasteNodes()
     endif
     if !empty(parent)
       for copied_node in b:copied_nodes
-        let new_fullpath = parent.path.str() . "/" . copied_node.path.getLastPathComponent(0)
+        let new_fullpath = parent.path.str() . g:VimpanelPath.Slash()
+        let new_fullpath .= copied_node.path.getLastPathComponent(0)
         call vimpanel#echo("copying " . copied_node.path.str() . " to " . new_fullpath)
         let newNode = copied_node.copy(new_fullpath)
         call parent.refresh()

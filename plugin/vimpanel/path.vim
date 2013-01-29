@@ -118,19 +118,26 @@ function! s:Path.copy(dest)
   " let dest = s:Path.WinToUnixPath(a:dest)
   let dest = a:dest
 
-  let cmd = g:VimpanelCopyCmd . " " . escape(self.str(), vimpanel#escapeChars()) . " " . escape(dest, vimpanel#escapeChars())
+  let cmd_prefix = ''
+  if self.isDirectory
+    let cmd_prefix = g:VimpanelCopyDirCmd
+  else
+    let cmd_prefix = g:VimpanelCopyFileCmd
+  endif
+
+  let cmd = cmd_prefix . " " . escape(self.str(), vimpanel#escapeChars()) . " " . escape(dest, vimpanel#escapeChars())
+  
   call vimpanel#echo("executing: " . cmd)
   let success = system(cmd)
-  if success != 0
+  if v:shell_error != 0
     throw "Vimpanel.CopyError: Could not copy ''". self.str() ."'' to: '" . a:dest . "'"
   endif
 endfunction
 
 " returns 1 if copying is supported for this OS
 function! s:Path.CopyingSupported()
-  return exists('g:VimpanelCopyCmd')
+  return exists('g:VimpanelCopyFileCmd') && exists('g:VimpanelCopyDirCmd')
 endfunction
-
 
 " returns 1 if copy this path to the given location will cause files to overwritten
 function! s:Path.copyingWillOverwrite(dest)
