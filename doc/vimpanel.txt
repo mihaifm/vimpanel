@@ -169,7 +169,7 @@ the session called 'default'
 ==============================================================================
 3. Mappings inside the panel                               *Vimpanel-mappings*
 
-    <CR> or double-click            expand directory or open file
+    <CR>, double-click, o           expand directory or open file
     <F5>                            refresh panel
     <C-c> or yy                     copy selected node (file or dir)
     <C-v> or p                      paste nodes
