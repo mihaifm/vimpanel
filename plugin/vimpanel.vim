@@ -635,6 +635,7 @@ function! VimpanelBindMappings()
   " todo - make these keys configurable
   nnoremap <buffer> <silent> <CR>             :call vimpanel#selectNode()<CR>
   nnoremap <buffer> <silent> <2-LeftMouse>    :call vimpanel#selectNode()<CR>
+  nnoremap <buffer> <silent> o                :call vimpanel#selectNode()<CR>
   nnoremap <buffer> <silent> <C-r>            :call vimpanel#refreshNode()<CR>
 
   nnoremap <buffer> <F5>                      :VimpanelRefresh<CR>
