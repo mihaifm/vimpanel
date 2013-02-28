@@ -7,7 +7,7 @@
 * Create and display any number of panels
 * Session support: find your panels and all other windows the way you left them when you exited Vim
 * Filesystem operations, including file copying using visual selection
-* Propper handling of Windows paths
+* Proper handling of Windows paths
 * Explore the filesystem without constrains, in explorer mode
 * Use it for project management, keeping bookmarks, notes or anything you like
 
@@ -120,7 +120,7 @@ nodes accordingly.
     VimpanelRefresh
     
 Rebuilds the panel and also refreshes all the open directories in the panel by reading data from the filesystem. 
-Note that this command encorporates the functionality of the `:VimpanelRebuild` command.
+Note that this command incorporates the functionality of the `:VimpanelRebuild` command.
 
     VimpanelSessionMake [{name}]
     
