@@ -14,6 +14,8 @@
 Vimpanel builds upon [NERDTree](https://github.com/scrooloose/nerdtree), in an attempt to make the side panel
 a place where you can keep your stuff organized, rather than just a file system explorer.
 
+![screenshot](http://i.imgur.com/e6dIvrX.png)
+
 ### Getting started
 
 Begin by creating a new panel with the `:VimpanelCreate` command.
