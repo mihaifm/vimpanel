@@ -1,4 +1,4 @@
-*vimpanel.txt*            version 1.0.2
+*vimpanel.txt*            version 1.0.3
 
 *Vimpanel* 
 
@@ -31,7 +31,7 @@ Load this panel in the current window with |:VimpanelLoad|
   
 Add entries to the panel with the |:Vimpanel| command.
 >
-    :Vimpanel D:\Projects
+    :Vimpanel D:\apps\myapp
   
 The path you just added will act as a root and you can now expand and browse
 it. At any time you can add other roots to the panel.
@@ -151,6 +151,17 @@ Rebuilds the panel and also refreshes all the open directories in the panel by
 reading data from the filesystem. Note that this command encorporates the 
 functionality of the |:VimpanelRebuild| command.
 
+                                                          *VimpanelToggleLeft*
+:VimpanelToggleLeft [{name}]
+
+Toggles the display of a panel in a window on the left side of the screen.
+If no panel name is given, the last active panel is used.
+
+                                                         *VimpanelToggleRight*
+:VimpanelToggleRight [{name}]
+
+Same as |:VimpanelToggleLeft| but for the right side of the screen.
+
                                                          *VimpanelSessionMake*
 :VimpanelSessionMake [{name}]
     
@@ -169,8 +180,10 @@ the session called 'default'
 ==============================================================================
 3. Mappings inside the panel                               *Vimpanel-mappings*
 
-    <CR> or double-click            expand directory or open file
+    <CR>, double-click, o           expand directory or open file
     <F5>                            refresh panel
+    <F6>                            toggle the display of hidden files and folders
+    t                               open file in new tab
     <C-c> or yy                     copy selected node (file or dir)
     <C-v> or p                      paste nodes
     dd                              delete node
@@ -209,3 +222,12 @@ Default: '~/vimpanel'
 Set this to 1 to remove the extra blank line that separates trees.   
 Default: 0
 
+                                                           *g:VimpanelWinSize*
+
+Initial size (in columns) of the vimpanel window.
+Default: 31
+
+                                                        *g:VimpanelShowHidden*
+
+Set this to 0 to hide the files and folders starting with . for all the panels.
+Default: 1

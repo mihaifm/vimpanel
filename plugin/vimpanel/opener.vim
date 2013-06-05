@@ -48,10 +48,10 @@ function! s:Opener._newSplit()
     " 'right' and 'below' will be set to the settings needed for
     " splitbelow and splitright IF the explorer is the only window.
     "
-    let there= g:NERDTreeWinPos ==# "left" ? "wincmd h" : "wincmd l"
-    let back = g:NERDTreeWinPos ==# "left" ? "wincmd l" : "wincmd h"
-    let right= g:NERDTreeWinPos ==# "left"
-    let below=0
+    let there = "wincmd h"
+    let back = "wincmd l"
+    let right = 1
+    let below = 0
 
     " Attempt to go to adjacent window
     call vimpanel#exec(back)
@@ -75,14 +75,14 @@ function! s:Opener._newSplit()
         exec(splitMode." sp ")
     catch /^Vim\%((\a\+)\)\=:E37/
         call s:putCursorInTreeWin()
-        throw "NERDTree.FileAlreadyOpenAndModifiedError: ". self._path.str() ." is already open and modified."
+        throw "Vimpanel.FileAlreadyOpenAndModifiedError: ". self._path.str() ." is already open and modified."
     catch /^Vim\%((\a\+)\)\=:/
         "do nothing
     endtry
 
     "resize the tree window if no other window was open before
     if onlyOneWin
-        let size = exists("b:NERDTreeOldWindowSize") ? b:NERDTreeOldWindowSize : g:NERDTreeWinSize
+        let size = g:VimpanelWinSize
         call vimpanel#exec(there)
         exec("silent ". splitMode ." resize ". size)
         call vimpanel#exec('wincmd p')
@@ -170,4 +170,3 @@ function! s:Opener._saveCursorPos()
   let self._bufnr = bufnr("")
   let self._tabnr = tabpagenr()
 endfunction
-

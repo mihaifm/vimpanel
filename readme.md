@@ -7,9 +7,12 @@
 * Create and display any number of panels
 * Session support: find your panels and all other windows the way you left them when you exited Vim
 * Filesystem operations, including file copying using visual selection
-* Propper handling of Windows paths
+* Proper handling of Windows paths
 * Explore the filesystem without constrains, in explorer mode
 * Use it for project management, keeping bookmarks, notes or anything you like
+
+Vimpanel builds upon [NERDTree](https://github.com/scrooloose/nerdtree), in an attempt to make the side panel
+a place where you can keep your stuff organized, rather than just a file system explorer.
 
 ### Getting started
 
@@ -23,7 +26,7 @@ Load this panel in the current window with `:VimpanelLoad`
   
 Add entries to the panel with the `:Vimpanel` command.
 
-    :Vimpanel D:\Projects
+    :Vimpanel D:\apps\myapp
   
 The path you just added will act as a root and you can now expand and browse it. At any time you can add 
 other roots to the panel.
@@ -120,7 +123,16 @@ nodes accordingly.
     VimpanelRefresh
     
 Rebuilds the panel and also refreshes all the open directories in the panel by reading data from the filesystem. 
-Note that this command encorporates the functionality of the `:VimpanelRebuild` command.
+Note that this command incorporates the functionality of the `:VimpanelRebuild` command.
+
+    VimpanelToggleLeft [{name}]
+
+Toggles the display of a panel in a window on the left side of the screen. If no panel name is given, the last
+active panel is used.
+
+    VimpanelToggleRight [{name}]
+
+Same as `:VimpanelToggleLeft` but for the right side of the screen.
 
     VimpanelSessionMake [{name}]
     
@@ -135,8 +147,10 @@ is provided, it attempts to load the session called `default`.
 
 ### Mappings inside the panel
 
-    <CR> or double-click            expand directory or open file
+    <CR> or o or double-click       expand directory or open file
     <F5>                            refresh panel
+    <F6>                            toggle the display of hidden files and folders
+    t                               open file in new tab
     <C-c> or yy                     copy selected node (file or dir)
     <C-v> or p                      paste nodes
     dd                              delete node
@@ -170,9 +184,12 @@ Default: `~/vimpanel`
 Set this to 1 to remove the extra blank line that separates trees.   
 Default: 0
 
-### How does it work
+    g:VimpanelWinSize
 
-Vimpanel is built on a heavily modified NERDTree API.    
-You will find many similarities with NERDTree but many key differences as well.
+Initial size (in columns) of the vimpanel window.    
+Default: 31
 
+    g:VimpanelShowHidden
 
+Set this to 0 to hide the files and folders starting with `.` for all the panels.    
+Default: 1

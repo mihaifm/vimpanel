@@ -24,6 +24,8 @@ endif
 call s:initVariable("g:VimpanelStorage", expand('$HOME') . '/' . 'vimpanel')
 call s:initVariable("g:VimpanelDirArrows", 0)
 call s:initVariable("g:VimpanelCompact", 0)
+call s:initVariable("g:VimpanelWinSize", 31)
+call s:initVariable("g:VimpanelShowHidden", 1)
 
 " load modules
 runtime plugin/vimpanel/path.vim
@@ -628,6 +630,48 @@ function! VimpanelEdit(panel_name)
   exe "e " . storage_file
 endfunction
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" VimpanelToggle - toggle a panel in a location, topleft or botright
+
+function! VimpanelToggle(panel_name, location)
+  let active_panel_name = ''
+  if empty(a:panel_name)
+    let active_panel_name = s:active_panel
+  else
+    let active_panel_name = a:panel_name
+  endif
+
+  if empty(active_panel_name)
+    call vimpanel#echoError("no panel name given")
+    return
+  endif
+
+  let active_panel_bufname = "vimpanel-" . active_panel_name
+
+  if bufexists(active_panel_bufname)
+    let vp_winnr = bufwinnr(active_panel_bufname)
+    if vp_winnr == -1
+      exe a:location . " vertical " . g:VimpanelWinSize . " split"
+      call VimpanelOpen(active_panel_name, 0)
+    else
+      exe vp_winnr . "wincmd w"
+      exe "q"
+    endif
+  else
+    exe a:location . " vertical " . g:VimpanelWinSize . " split"
+    call VimpanelLoad(active_panel_name)
+  endif
+endfunction
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" VimpanelViewHidden - toggle the display of files/folders starting with a .
+
+function! VimpanelViewHidden()
+  let g:VimpanelShowHidden = !g:VimpanelShowHidden
+  call VimpanelRefresh()
+endfunction
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " VimpanelBindMappings - mappings and commands for the vimpanel buffer
 
@@ -635,9 +679,12 @@ function! VimpanelBindMappings()
   " todo - make these keys configurable
   nnoremap <buffer> <silent> <CR>             :call vimpanel#selectNode()<CR>
   nnoremap <buffer> <silent> <2-LeftMouse>    :call vimpanel#selectNode()<CR>
+  nnoremap <buffer> <silent> o                :call vimpanel#selectNode()<CR>
+  nnoremap <buffer> <silent> t                :call vimpanel#tabNode()<CR>
   nnoremap <buffer> <silent> <C-r>            :call vimpanel#refreshNode()<CR>
 
   nnoremap <buffer> <F5>                      :VimpanelRefresh<CR>
+  nnoremap <buffer> <F6>                      :call VimpanelViewHidden()<CR>
 
   map <buffer> <silent> <C-c>                 :call VimpanelCopyNode()<CR>
   map <buffer> <silent> yy                    :call VimpanelCopyNode()<CR>
@@ -680,6 +727,8 @@ command! -nargs=1 -complete=file VimpanelAdd call VimpanelAdd('<args>')
 command! -nargs=1 -complete=customlist,s:CompletePanelNames VimpanelEdit call VimpanelEdit('<args>')
 command! -nargs=1 -complete=customlist,s:CompletePanelNames VimpanelOpen call VimpanelOpen('<args>', 0)
 command! -nargs=1 -complete=customlist,s:CompletePanelNames VimpanelLoad call VimpanelLoad('<args>')
+command! -nargs=? -complete=customlist,s:CompletePanelNames VimpanelToggleLeft call VimpanelToggle('<args>', 'topleft')
+command! -nargs=? -complete=customlist,s:CompletePanelNames VimpanelToggleRight call VimpanelToggle('<args>', 'botright')
 command! VimpanelRebuild call VimpanelRebuild()
 command! VimpanelRefresh call VimpanelRefresh()
 command! VimpanelSave call VimpanelSave()
@@ -705,4 +754,3 @@ augroup END
 " todo - bug
 " refreshin a tree does not preserve the same order of files
 " globpath puts files starting with a capital letter at the beginning
-

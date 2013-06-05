@@ -155,7 +155,7 @@ endfunction
 
 " deletes the file represented by this path.
 " deletion of directories is not supported
-" throws: NERDTree.Path.Deletion exceptions
+" throws: Vimpanel.Path.Deletion exceptions
 function! s:Path.delete()
   if self.isDirectory
     let cmd = g:VimpanelRemoveDirCmd . " " . self.str({'escape': 1})
@@ -505,4 +505,3 @@ function! s:Path.WinToUnixPath(pathstr)
 
   return toReturn
 endfunction
-

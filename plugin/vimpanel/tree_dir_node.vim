@@ -180,11 +180,25 @@ function! s:TreeDirNode._initChildren(silent)
   let dir = self.path
   let globDir = dir.str({'format': 'Glob'})
 
-  let filesStr = globpath(globDir, '.*' . g:VimpanelPath.Slash()) . "\n" 
-  let filesStr .= globpath(globDir, '*' . g:VimpanelPath.Slash()) . "\n" 
+  let old_wildignore = &wildignore
+  if !g:VimpanelShowHidden
+    set wildignore+=.*
+  endif
 
-  let filesStr .= globpath(globDir, '*') . "\n" 
-  let filesStr .= globpath(globDir, '.*')
+  let filesStr = ''
+
+  if g:VimpanelShowHidden
+    let filesStr = globpath(globDir, '.*' . g:VimpanelPath.Slash()) . "\n"
+  endif
+
+  let filesStr .= globpath(globDir, '*' . g:VimpanelPath.Slash()) . "\n"
+  let filesStr .= globpath(globDir, '*') . "\n"
+
+  if g:VimpanelShowHidden
+    let filesStr .= globpath(globDir, '.*')
+  endif
+
+  let &wildignore = old_wildignore
 
   let files = split(filesStr, "\n")
 
@@ -330,10 +344,25 @@ function! s:TreeDirNode.refresh()
     let dir = self.path
     let globDir = dir.str({'format': 'Glob'})
 
-    let filesStr = globpath(globDir, '.*' . g:VimpanelPath.Slash()) . "\n"
+    let old_wildignore = &wildignore
+    if !g:VimpanelShowHidden
+      set wildignore+=.*
+    endif
+
+    let filesStr = ''
+
+    if g:VimpanelShowHidden
+      let filesStr = globpath(globDir, '.*' . g:VimpanelPath.Slash()) . "\n"
+    endif
+
     let filesStr .= globpath(globDir, '*' . g:VimpanelPath.Slash()) . "\n"
     let filesStr .= globpath(globDir, '*') . "\n"
-    let filesStr .= globpath(globDir, '.*')
+
+    if g:VimpanelShowHidden
+      let filesStr .= globpath(globDir, '.*')
+    endif
+
+    let &wildignore = old_wildignore
 
     let files = split(filesStr, "\n")
 

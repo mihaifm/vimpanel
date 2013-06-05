@@ -1,4 +1,4 @@
-let vimpanel#version = '1.0.2'
+let vimpanel#version = '1.0.3'
 
 if exists("g:loaded_vimpanel_autoload")
   finish
@@ -628,6 +628,19 @@ function! vimpanel#selectNode()
   endif
 endfunction
 
+" opens the node in a new tab
+function! vimpanel#tabNode()
+  let node = vimpanel#getSelectedNode()
+
+  if node ==# {}
+    return
+  endif
+
+  if !node.path.isDirectory
+    call node.activate({'reuse': 1, 'where': 't'})
+  endif
+endfunction
+
 " refreshes the node under cursor
 function! vimpanel#refreshNode()
   let node = vimpanel#getSelectedNode()
@@ -687,4 +700,3 @@ function! vimpanel#hideMarkup()
     exe "hi VimpanelEndSlash guifg=" . bg_color . " guibg=" . bg_color
   endif
 endfunction
-
