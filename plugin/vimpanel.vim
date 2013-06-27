@@ -216,6 +216,10 @@ endfunction
 " use_session: use the session file to expand nodes
 
 function! VimpanelOpen(panel_name, use_session)
+  if vimpanel#blank(a:panel_name)
+    return
+  endif
+
   call vimpanel#readPanelData(a:panel_name)
 
   if s:active_panel_bufnr < 0
