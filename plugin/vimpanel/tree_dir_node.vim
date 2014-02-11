@@ -237,7 +237,7 @@ function! s:TreeDirNode._initChildren(silent)
   endfor
 
   " too slow, for some reason
-  " call self.sortChildren()
+  call self.sortChildren()
 
   if !a:silent && len(files) > vimpanel#notifThreshold() 
     call vimpanel#echo("Please wait, caching a large dir ... DONE (". self.getChildCount() ." nodes cached).")

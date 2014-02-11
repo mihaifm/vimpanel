@@ -70,7 +70,15 @@ function! s:Path.compareTo(path)
     return 1
   else
     " if the sort sequences are the same then compare the paths alphabetically
-    let pathCompare = thisPath <? thatPath
+    let pathCompare = 0
+
+    " files starting with . come last
+    if thisPath =~ '^\.' && thatPath =~ '^\.' || thisPath !~ '^\.' && thatPath !~ '^\.'
+      let pathCompare = thisPath <? thatPath
+    else
+      let pathCompare = thisPath >? thatPath
+    endif
+
     if pathCompare
       return -1
     else
