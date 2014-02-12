@@ -21,7 +21,7 @@ else
   call s:initVariable("g:VimpanelCopyFileCmd", 'cp -r')
 endif
 
-call s:initVariable("g:VimpanelStorage", expand('$HOME') . '/' . 'vimpanel')
+call s:initVariable("g:VimpanelStorage", '~/vimpanel')
 call s:initVariable("g:VimpanelDirArrows", 0)
 call s:initVariable("g:VimpanelCompact", 0)
 call s:initVariable("g:VimpanelWinSize", 31)
@@ -49,6 +49,9 @@ let b:roots = []
 
 " contains the actual tree objects displayed on the screen
 let b:tree_objects = []
+
+" expand the storage folder
+let g:VimpanelStorage = expand(g:VimpanelStorage)
 
 " autocomplete for panel names
 function! s:CompletePanelNames(A, L, P)
