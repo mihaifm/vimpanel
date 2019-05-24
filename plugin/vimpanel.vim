@@ -278,6 +278,12 @@ function! VimpanelRebuild()
   else
     call VimpanelOpen(s:active_panel, 0)
   endif
+
+  " g:VimpanelCallback can be implemented by the user to perform
+  " custom actions when the panel is rebuilt
+  if exists("*g:VimpanelCallback")
+    call g:VimpanelCallback()
+  endif 
 endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""

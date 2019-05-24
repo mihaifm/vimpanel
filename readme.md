@@ -195,3 +195,9 @@ Default: 31
 
 Set this to 0 to hide the files and folders starting with `.` for all the panels.    
 Default: 1
+
+    g:VimpanelCallback()
+
+A function that can be implemented by users in their `vimrc` to execute custom logic
+when entries are added or removed from the panel.    
+Default: None
