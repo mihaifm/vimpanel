@@ -576,7 +576,7 @@ function! VimpanelSessionMake(name)
     let sess_file = g:VimpanelStorage ."/" . a:name . ".vim"
   endif
 
-  set sessionoptions=buffers,curdir,resize,winsize,blank,help,winpos
+  set sessionoptions=buffers,tabpages,curdir,resize,winsize,blank,help,winpos
   exec "mksession! " . sess_file
 endfunction
 
@@ -585,7 +585,7 @@ endfunction
 " which includes the panel and all open windows
 
 function! VimpanelSessionLoad(name)
-  set sessionoptions=buffers,curdir,resize,winsize,blank,help,winpos
+  set sessionoptions=buffers,tabpages,curdir,resize,winsize,blank,help,winpos
 
   if empty(a:name)
     let sess_file = g:VimpanelStorage . "/" . "default.vim"

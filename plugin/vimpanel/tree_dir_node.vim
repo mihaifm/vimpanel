@@ -400,7 +400,7 @@ function! s:TreeDirNode.refresh()
 
     " swap this nodes children out for the children we just read/refreshed
     let self.children = newChildNodes
-    " call self.sortChildren()
+    call self.sortChildren()
 
     if invalidFilesFound
       call vimpanel#echoWarning("some files could not be loaded into the vimpanel")
