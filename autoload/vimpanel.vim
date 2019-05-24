@@ -521,6 +521,7 @@ endfunction
 " captures directory edits
 function! vimpanel#captureDir(dir)
   if a:dir != '' && isdirectory(a:dir)
+    exe "b#"
     call Vimpanel(a:dir)
     exe "bw " . a:dir
   endif

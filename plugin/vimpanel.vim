@@ -746,7 +746,7 @@ command! -nargs=? -complete=customlist,s:CompleteSessionNames VimpanelSessionLoa
 augroup Vimpanel
   autocmd VimEnter * silent! autocmd! FileExplorer
   " capture directory edits (including drag n drop)
-  autocmd BufAdd	* silent! call vimpanel#captureDir(expand("<amatch>"))
+  autocmd! BufEnter * call vimpanel#captureDir(expand("<amatch>"))
   " todo - use namespace scheme
   autocmd ColorScheme * silent! call vimpanel#hideMarkup()
 augroup END
