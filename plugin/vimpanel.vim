@@ -265,6 +265,10 @@ function! VimpanelOpen(panel_name, use_session)
   endif
 
   call vimpanel#renderPanel()
+
+  if exists("*g:VimpanelCallback")
+    call g:VimpanelCallback()
+  endif
 endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
