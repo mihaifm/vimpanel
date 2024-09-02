@@ -386,7 +386,11 @@ function! vimpanel#setPanelBufProperties(panel_name)
   setlocal nowrap
   setfiletype vimpanel
   setlocal winfixwidth
-        
+
+  if exists("&winfixbuf")
+    setlocal winfixbuf
+  endif
+
   let &l:statusline = " " . a:panel_name
 
   let b:roots = copy(g:VimpanelRoots)
